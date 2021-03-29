@@ -18,14 +18,15 @@ namespace HackerRank.Tests
             Assert.AreEqual(expectedNodeCount, tree.NodeCount);
         }
 
-        [TestCase("BinaryTree_1.txt", new [] {2, 4, 1, 3, 5})] 
-        public void TestInOrderTraversal(string fileName, int[] expected)
+        [TestCase("BinaryTree_1.txt", new [] {2, 4, 1, 3, 5}, 3)] 
+        public void TestInOrderTraversal(string fileName, int[] expected, int expectedMaxHeight)
         {
             var path = Path.Combine("TestData", fileName);
             var lines = File.ReadAllLines(path);
             var tree = IntTree.MakeIntTreeFromText(lines);
-            var result = tree.InOrderTraversalGetValues();
+            var result = tree.InOrderTraversalGetValues(out var maxHeight);
             Assert.That(expected.SequenceEqual(result));
+            Assert.AreEqual(expectedMaxHeight, maxHeight);
         }
 
         [TestCase("BinaryTree_1.txt", 1, new[] {1})]
@@ -50,7 +51,7 @@ namespace HackerRank.Tests
             var lines = File.ReadAllLines(path);
             var tree = IntTree.MakeIntTreeFromText(lines);
             tree.SwapNodes(height);
-            var result = tree.InOrderTraversalGetValues();
+            var result = tree.InOrderTraversalGetValues(out var maxHeight);
             Assert.That(expected.SequenceEqual(result));
         }
     }

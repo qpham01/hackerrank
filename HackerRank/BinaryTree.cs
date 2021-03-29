@@ -16,10 +16,11 @@ namespace HackerRank
         public BinaryNode<T> Root;
         public int NodeCount;
 
-        public T[] InOrderTraversalGetValues()
+        public T[] InOrderTraversalGetValues(out int maxHeight)
         {
             var values = new List<T>();
-            TraverseInOrder(Root, values, 1);
+            maxHeight = 0;
+            TraverseInOrder(Root, values, 1, ref maxHeight);
             return values.ToArray();
         }
 
@@ -36,11 +37,12 @@ namespace HackerRank
             return list;
         }
 
-        private void TraverseInOrder(BinaryNode<T> node, List<T> values, int height)
+        private void TraverseInOrder(BinaryNode<T> node, List<T> values, int height, ref int maxHeight)
         {
-            if (node.Left != null) TraverseInOrder(node.Left, values, height + 1);
+            if (maxHeight < height) maxHeight = height;
+            if (node.Left != null) TraverseInOrder(node.Left, values, height + 1, ref maxHeight);
             values.Add(node.Value);
-            if (node.Right != null) TraverseInOrder(node.Right, values, height + 1);
+            if (node.Right != null) TraverseInOrder(node.Right, values, height + 1, ref maxHeight);
         }
 
         private void GetNodesAtHeight(BinaryNode<T> node, List<BinaryNode<T>> nodes, int targetHeight, int height)
