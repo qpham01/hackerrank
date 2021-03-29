@@ -1,0 +1,25 @@
+﻿TestCase 00
+YES
+NO
+
+TestCase 05
+YES
+YES
+NO
+NO
+YES
+YES
+YES
+YES
+NO
+YES
+
+TestCase 06
+NO
+YES
+YES
+NO
+
+TestCase 07
+YES
+NO
