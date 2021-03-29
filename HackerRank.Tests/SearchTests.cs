@@ -52,7 +52,7 @@ namespace HackerRank.Tests
                     input.Add(int.Parse(value));
                 }
 
-                var result = Search.TwoNumberSumSearchHash2(input.ToArray(), sum);
+                var result = Search.TwoNumberSumSearchHash(input.ToArray(), sum);
                 Assert.AreEqual(expected[i].Item1, result.Item1 + 1);
                 Assert.AreEqual(expected[i].Item2, result.Item2 + 1);
             }
