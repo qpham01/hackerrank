@@ -39,7 +39,6 @@ namespace HackerRank
                 queue.Enqueue(h);
             }
 
-            var previousArea = 0;
             while (stack.Count > 0 && queue.Count > 0)
             {
                 var area = stack.Min() * stack.Count;
