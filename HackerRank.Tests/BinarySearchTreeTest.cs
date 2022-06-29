@@ -15,7 +15,7 @@ namespace HackerRank.Tests
         public void TestLeastCommonAncestor(int[] data, int data1, int data2, int expected)
         {
             var tree = BinarySearchTree.MakeTreeFromData(data);
-            var result = BinarySearchTree.lca(tree.root, data1, data2);
+            var result = BinarySearchTree.LowestCommonAncestor(tree.root, data1, data2);
             Console.WriteLine(tree.ToString());
             Assert.AreEqual(expected, result.data);
         }

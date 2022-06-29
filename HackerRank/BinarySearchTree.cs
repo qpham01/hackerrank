@@ -21,25 +21,25 @@ namespace HackerRank
     {
         public Node root;
 
-        public static Node lca(Node root, int v1, int v2)
+        public static Node LowestCommonAncestor(Node root, int v1, int v2)
         {
-            //Decide if you have to call rekursively
-            //Samller than both
+            //Decide if you have to call recursively
+            //Smaller than both
             if (root.data < v1 && root.data < v2)
             {
-                return lca(root.right, v1, v2);
+                return LowestCommonAncestor(root.right, v1, v2);
             }
             //Bigger than both
             if (root.data > v1 && root.data > v2)
             {
-                return lca(root.left, v1, v2);
+                return LowestCommonAncestor(root.left, v1, v2);
             }
 
             //Else solution already found
             return root;
         }
 
-        public static Node lca2(Node root, int v1, int v2)
+        public static Node LowestCommonAncestor2(Node root, int v1, int v2)
         {
             var path1 = new List<Node>();
             BinarySearch(root, v1, path1);
@@ -82,7 +82,7 @@ namespace HackerRank
             BreathFirstSearch(nextNode, searchNodes, searchPath);
         }
 
-        public static Node insert(Node root, int data)
+        public static Node Insert(Node root, int data)
         {
             if (root == null)
             {
@@ -93,12 +93,12 @@ namespace HackerRank
                 Node cur;
                 if (data <= root.data)
                 {
-                    cur = insert(root.left, data);
+                    cur = Insert(root.left, data);
                     root.left = cur;
                 }
                 else
                 {
-                    cur = insert(root.right, data);
+                    cur = Insert(root.right, data);
                     root.right = cur;
                 }
                 return root;
@@ -111,7 +111,7 @@ namespace HackerRank
             var root = tree.root;
             foreach (var d in data)
             {
-                root = insert(root, d);
+                root = Insert(root, d);
             }
 
             tree.root = root;
