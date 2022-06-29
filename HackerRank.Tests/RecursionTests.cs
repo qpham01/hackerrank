@@ -25,5 +25,25 @@ namespace HackerRank.Tests
             Assert.AreEqual(answer, _sut.Factorial(n));
         }
 
+        [TestCase(0, 0)]
+        [TestCase(1, 1)]
+        [TestCase(2, 1)]
+        [TestCase(3, 2)]
+        [TestCase(5, 5)]
+        [TestCase(8, 21)]
+        [TestCase(11, 89)]
+        public void TestFibonacci(int i, int answer)
+        {
+            Assert.AreEqual(answer, _sut.Fibonacci(i));
+        }
+
+        [TestCase("hello", "olleh")]
+        [TestCase("fibonacci", "iccanobif")]
+        [TestCase("good morning", "gninrom doog")]
+        public void TestReverseString(string start, string reversed)
+        {
+            var result = _sut.ReverseString(start);
+            Assert.That(reversed, Is.EqualTo(result));
+        }
     }
 }
