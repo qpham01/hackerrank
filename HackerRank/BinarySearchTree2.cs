@@ -11,7 +11,11 @@ namespace HackerRank
         int Insert(int value);
         int Lookup(int value, out BinaryNode foundNode);
         int Remove(int value, out bool removed, out BinaryNode replaceNode);
-        int[] BreadthFirstSearch();
+        int[] BreadthFirstTraveral();
+        int[] BreadthFirstTraveralRecursive();
+        int[] DepthFirstTraversalInOrder();
+        int[] DepthFirstTraversalPreOrder();
+        int[] DepthFirstTraversalPostOrder();
     }
 
     public class BinaryNode
@@ -25,11 +29,6 @@ namespace HackerRank
     public class BSTree : ITree
     {
         #region Public
-        public int[] BreadthFirstSearch()
-        {
-            throw new NotImplementedException();
-        }
-
         public int Insert(int value)
         {
             int searchCount = 1;
@@ -82,6 +81,48 @@ namespace HackerRank
             }
             return searchCount;
         }
+        public int[] BreadthFirstTraveral()
+        {
+            var queue = new Queue<BinaryNode>();
+            var values = new List<int>();
+            queue.Enqueue(Root);
+            BreadthFirstVisit(queue, values);
+            while (queue.Count > 0)
+            {
+                BreadthFirstVisit(queue, values);
+            }
+            return values.ToArray();
+        }
+        public int[] BreadthFirstTraveralRecursive()
+        {
+            var queue = new Queue<BinaryNode>();
+            var values = new List<int>();
+            queue.Enqueue(Root);
+            BreadthFirstVisitRecursive(queue, values);
+            return values.ToArray();
+        }
+
+
+        public int[] DepthFirstTraversalInOrder()
+        {
+            var values = new List<int>();
+            TraverseInOrder(Root, values);
+            return values.ToArray();
+        }
+
+        public int[] DepthFirstTraversalPreOrder()
+        {
+            var values = new List<int>();
+            TraversePreOrder(Root, values);
+            return values.ToArray();
+        }
+
+        public int[] DepthFirstTraversalPostOrder()
+        {
+            var values = new List<int>();
+            TraversePostOrder(Root, values);
+            return values.ToArray();
+        }
         #endregion
 
         #region Constructor
@@ -120,6 +161,63 @@ namespace HackerRank
                 else searchCount = Lookup(node.Right, value, searchCount, out foundNode);
             }
             return searchCount;
+        }
+
+        private void BreadthFirstVisit(Queue<BinaryNode> queue, List<int> values)
+        {
+            var node = queue.Dequeue();
+            values.Add(node.Value);
+            if (node.Left != null) queue.Enqueue(node.Left);
+            if (node.Right != null) queue.Enqueue(node.Right);                 
+        }
+
+        private void BreadthFirstVisitRecursive(Queue<BinaryNode> queue, List<int> values)
+        {
+            if (queue.Count == 0) return;
+            var node = queue.Dequeue();
+            values.Add(node.Value);
+            if (node.Left != null) queue.Enqueue(node.Left);
+            if (node.Right != null) queue.Enqueue(node.Right);
+            BreadthFirstVisitRecursive(queue, values);
+        }
+
+        private void TraverseInOrder(BinaryNode node, List<int> values)
+        {
+            values.Add(node.Value);
+            if (node.Left != null)
+            {
+                TraversePreOrder(node.Left, values);
+            }
+            if (node.Right != null)
+            {
+                TraversePreOrder(node.Right, values);
+            }
+        }
+
+        private void TraversePreOrder(BinaryNode node, List<int> values)
+        {
+            values.Add(node.Value);
+            if (node.Left != null)
+            {
+                TraversePreOrder(node.Left, values);
+            }
+            if (node.Right != null)
+            {
+                TraversePreOrder(node.Right, values);
+            }
+        }
+
+        private void TraversePostOrder(BinaryNode node, List<int> values)
+        {
+            if (node.Left != null)
+            {
+                TraversePostOrder(node.Left, values);
+            }
+            if (node.Right != null)
+            {
+                TraversePostOrder(node.Right, values);
+            }
+            values.Add(node.Value);
         }
 
         #endregion
