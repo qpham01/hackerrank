@@ -68,5 +68,29 @@ namespace HackerRank.Tests
             }
         }
 
+        [TestCase(new[] { 9, 4, 6, 20, 170, 15, 1 }, 9, 4, 1)]
+        [TestCase(new[] { 9, 4, 6, 20, 170, 15, 1 }, 4, 1, 2)]
+        [TestCase(new[] { 9, 4, 6, 20, 170, 15, 1 }, 20, 15, 2)]
+        [TestCase(new[] { 9, 4, 6, 20, 170, 15, 1 }, 6, int.MinValue, 3)]
+        [TestCase(new[] { 9, 4, 6, 20, 170, 15, 1 }, 15, int.MinValue, 3)]
+        public void TestRemove(int[] input, int removeValue, int replaceValue, int expectedSearchCount)
+        {
+            for (var i = 0; i < input.Length; ++i)
+            {
+                _tree.Insert(input[i]);
+            }
+            var searchCount = _tree.Remove(removeValue, out var removed, out var replaceNode);
+            Assert.AreEqual(expectedSearchCount, searchCount);
+            Assert.IsTrue(removed);
+            _tree.Lookup(removeValue, out var foundNode);
+            Assert.IsNull(foundNode);
+            if (replaceNode != null)
+            {
+                Assert.AreEqual(replaceValue, replaceNode.Value);
+                searchCount = _tree.Lookup(replaceNode.Value, out foundNode);
+                Assert.AreEqual(expectedSearchCount, searchCount);
+            }
+        }
+
     }
 }

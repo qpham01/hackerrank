@@ -10,12 +10,13 @@ namespace HackerRank
     {
         int Insert(int value);
         int Lookup(int value, out BinaryNode foundNode);
-        bool Remove(int value);
+        int Remove(int value, out bool removed, out BinaryNode replaceNode);
         int[] BreadthFirstSearch();
     }
 
     public class BinaryNode
-    { 
+    {
+        public BinaryNode Parent;
         public BinaryNode Left;
         public BinaryNode Right;
         public int Value;
@@ -56,9 +57,30 @@ namespace HackerRank
             return searchCount;
         }
 
-        public bool Remove(int value)
+        public int Remove(int value, out bool removed, out BinaryNode replaceNode)
         {
-            throw new NotImplementedException();
+            var searchCount = Lookup(value, out var foundNode);
+            if (foundNode == null)
+            {
+                removed = false;
+                replaceNode = null;
+                return searchCount;
+            }
+            removed = true;
+            replaceNode = foundNode.Left;
+            if (foundNode == Root)
+            {
+                Root = replaceNode;
+                Root.Parent = null;
+            }
+            else
+            {
+                var parent = foundNode.Parent;
+                if (parent.Left == foundNode) parent.Left = replaceNode;
+                else if (parent.Right == foundNode) parent.Right = replaceNode;
+                if (replaceNode != null) replaceNode.Parent = parent;
+            }
+            return searchCount;
         }
         #endregion
 
@@ -77,7 +99,7 @@ namespace HackerRank
             searchCount++;
             if (node == null)
             {
-                node = new BinaryNode() { Value = value };
+                node = new BinaryNode() { Value = value, Parent = parent };
                 if (isLeft) parent.Left = node;
                 else parent.Right = node;
                 return searchCount;
