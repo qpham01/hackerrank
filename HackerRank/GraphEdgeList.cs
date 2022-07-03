@@ -87,11 +87,15 @@ namespace HackerRank
             return orderedVisits.ToArray();
         }
 
-        public T[] DepthFirsSearch(T start, T target)
+        public T[] DepthFirsSearchPreOrder(T start, T target)
         {
-            throw new NotImplementedException();
+            if (!_nodeTable.TryGetValue(start, out var startNode)) return null;
+            var toVisit = new HashSet<T>();
+            var orderedVisits = new List<T>();
+            toVisit.Add(start);
+            SearchPreOrder(startNode, toVisit, orderedVisits, target);
+            return orderedVisits.ToArray();
         }
-
         #endregion;
 
         #region Non-Public
@@ -110,6 +114,24 @@ namespace HackerRank
                 queue.Enqueue(edge.Node2);
             }
             BreadthFirstVisit(queue, toVisit, orderedVisits, target);
+        }
+
+        private bool SearchPreOrder(INode<T> node, HashSet<T> toVisit, List<T> orderedVisits, T target)
+        {
+            orderedVisits.Add(node.Value);
+            foreach (var edge in node.Edges)
+            {
+                var nextNode = edge.Node2;
+                if (toVisit.Contains(nextNode.Value)) continue;
+                toVisit.Add(nextNode.Value);
+                if (nextNode.Value.Equals(target))
+                {
+                    orderedVisits.Add(nextNode.Value);
+                    return true;
+                };
+                if (SearchPreOrder(nextNode, toVisit, orderedVisits, target)) return true;
+            }
+            return false;
         }
         #endregion
     }

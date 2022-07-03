@@ -27,6 +27,6 @@ namespace HackerRank
         void AddNode(T value);
         void AddEdge(T start, T end, double weight, bool bidirectional);
         T[] BreadthFirstSearch(T start, T target);
-        T[] DepthFirsSearch(T start, T Target);
+        T[] DepthFirsSearchPreOrder(T start, T Target);
     }
 }

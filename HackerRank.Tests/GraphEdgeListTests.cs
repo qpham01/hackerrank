@@ -61,14 +61,32 @@ namespace HackerRank.Tests
             }            
         }
 
-        [TestCase(new[] {1, 2, 3, 4, 5, 6}, new[] {1, 1, 2, 2, 3, 4, 4}, new[] {2, 5, 3, 5, 4, 5, 6}, true, 1, -1,  new[] { 1, 2, 5, 3, 4, 6 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] {1, 1, 2, 2, 3, 4, 4}, new[] {2, 5, 3, 5, 4, 5, 6}, true, 1, -1,  new[] { 1, 2, 5, 3, 4, 6 })]
         [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] { 1, 1, 2, 2, 3, 4, 4 }, new[] { 2, 5, 3, 5, 4, 5, 6 }, true, 1, 3, new[] { 1, 2, 5, 3 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] { 1, 1, 2, 2, 3, 4, 4 }, new[] { 2, 5, 3, 5, 4, 5, 6 }, true, 2, 4, new[] { 2, 1, 3, 5, 4 })]
         [TestCase(new[] { 1, 2, 3, 4, 5, 6, 7 }, new[] { 1, 1, 2, 2, 3, 3 }, new[] { 2, 3, 4, 5, 6, 7 }, true, 1, -1,  new[] { 1, 2, 3, 4, 5, 6, 7 })]
         [TestCase(new[] { 1, 2, 3, 4, 5, 6, 7 }, new[] { 1, 1, 2, 2, 3, 3 }, new[] { 2, 3, 4, 5, 6, 7 }, true, 1, 3, new[] { 1, 2, 3 })]
         public void TestBreadthFirstSearch(int[] values, int[] starts, int[] ends, bool bidirectional, int start, int target, int[] expectedVisits)
         {
             BuildGraph(values, starts, ends, bidirectional);
             var visits = _sut.BreadthFirstSearch(start, target);
+            Assert.That(visits, Is.EqualTo(expectedVisits));
+        }
+
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] { 1, 1, 2, 2, 3, 4, 4 }, new[] { 2, 5, 3, 5, 4, 5, 6 }, true, 1, -1, new[] { 1, 2, 3, 4, 5, 6 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] { 1, 1, 2, 2, 3, 4, 4 }, new[] { 2, 5, 3, 5, 4, 5, 6 }, true, 2, -1, new[] { 2, 1, 5, 4, 3, 6 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] { 1, 1, 2, 2, 3, 4, 4 }, new[] { 2, 5, 3, 5, 4, 5, 6 }, true, 1, 6, new[] { 1, 2, 3, 4, 5, 6 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] { 1, 1, 2, 2, 3, 4, 4 }, new[] { 2, 5, 3, 5, 4, 5, 6 }, true, 1, 5, new[] { 1, 2, 3, 4, 5 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] { 1, 1, 2, 2, 3, 4, 4 }, new[] { 2, 5, 3, 5, 4, 5, 6 }, true, 4, 1, new[] { 4, 3, 2, 1 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] { 1, 1, 2, 2, 3, 4, 4 }, new[] { 2, 5, 3, 5, 4, 5, 6 }, true, 2, 4, new[] { 2, 1, 5, 4 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] { 1, 1, 2, 2, 3, 4, 4 }, new[] { 2, 5, 3, 5, 4, 5, 6 }, true, 3, 6, new[] { 3, 2, 1, 5, 4, 6 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, new[] { 1, 1, 2, 2, 3, 4, 4 }, new[] { 2, 5, 3, 5, 4, 5, 6 }, true, 1, 3, new[] { 1, 2, 3 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6, 7 }, new[] { 1, 1, 2, 2, 3, 3 }, new[] { 2, 3, 4, 5, 6, 7 }, true, 1, -1, new[] { 1, 2, 4, 5, 3, 6, 7 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5, 6, 7 }, new[] { 1, 1, 2, 2, 3, 3 }, new[] { 2, 3, 4, 5, 6, 7 }, true, 1, 3, new[] { 1, 2, 4, 5, 3 })]
+        public void TestDepthFirstSearchPreOrder(int[] values, int[] starts, int[] ends, bool bidirectional, int start, int target, int[] expectedVisits)
+        {
+            BuildGraph(values, starts, ends, bidirectional);
+            var visits = _sut.DepthFirsSearchPreOrder(start, target);
             Assert.That(visits, Is.EqualTo(expectedVisits));
         }
 
