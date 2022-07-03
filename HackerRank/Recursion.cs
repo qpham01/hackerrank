@@ -6,6 +6,12 @@ namespace HackerRank
 {
     public class Recursion
     {
+        public int RecurseCalls => _recurseCalls;
+        public int MemoizedCalls => _memoizedCalls;
+
+        private int _recurseCalls;
+        private int _memoizedCalls;
+
         public int Factorial(int n, int previous = 1)
         {
             if (n == 0) return previous;
@@ -13,23 +19,40 @@ namespace HackerRank
             return Factorial(n - 1, previous);
         }
 
-        public int Fibonacci(int i)
+        public static List<int> _fibList = new List<int> { 0, 1 };
+
+        public void ResetFibCache()
         {
-            var arraySize = i + 1;
-            int[] fib = new int[arraySize];
-            fib[0] = 0;
-            if (i == 0) return fib[i];
-            fib[1] = 1;
-            if (i == 1) return fib[i];
-            RecursiveFibonacci(i, 2, fib);
-            return fib[i];
+            _fibList.Clear();
+            _fibList.Add(0);
+            _fibList.Add(1);
         }
 
-        private void RecursiveFibonacci(int maxIndex, int i, int[] fibArray)
+        public int FibonacciRecurse(int i)
         {
-            fibArray[i] = fibArray[i - 1] + fibArray[i - 2];
-            if (i == maxIndex) return;
-            RecursiveFibonacci(maxIndex, i + 1, fibArray);
+            _recurseCalls = 0;
+            return InternalFibonacciRecurse(i);
+        }
+        public int FibonacciMemoized(int i)
+        {
+            _memoizedCalls = 0;
+            return InternalFibonacciMemoized(i);
+        }
+
+        private int InternalFibonacciRecurse(int i)
+        {
+            _recurseCalls++;
+            if (i < 2) return i;
+            return InternalFibonacciRecurse(i - 1) + InternalFibonacciRecurse(i - 2);
+        }
+
+        private int InternalFibonacciMemoized(int n)
+        {
+            _memoizedCalls++;
+            if (n < _fibList.Count) return _fibList[n];
+            var result = InternalFibonacciMemoized(n - 1) + InternalFibonacciMemoized(n - 2);
+            _fibList.Add(result);
+            return result;
         }
 
         public string ReverseString(string start)
