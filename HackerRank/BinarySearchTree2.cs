@@ -183,14 +183,14 @@ namespace HackerRank
 
         private void TraverseInOrder(BinaryNode node, List<int> values)
         {
-            values.Add(node.Value);
             if (node.Left != null)
             {
-                TraversePreOrder(node.Left, values);
+                TraverseInOrder(node.Left, values);
             }
+            values.Add(node.Value);
             if (node.Right != null)
             {
-                TraversePreOrder(node.Right, values);
+                TraverseInOrder(node.Right, values);
             }
         }
 

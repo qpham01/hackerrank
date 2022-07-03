@@ -91,7 +91,7 @@ namespace HackerRank.Tests
         {
             BuildTree(input);
             var visits = _tree.BreadthFirstTraveral();
-            Assert.That(visits, Is.EquivalentTo(expectedVisits));
+            Assert.That(visits, Is.EqualTo(expectedVisits));
         }
 
         [TestCase(new[] { 9, 4, 6, 20, 170, 15, 1 }, new[] { 9, 4, 20, 1, 6, 15, 170 })]
@@ -100,7 +100,7 @@ namespace HackerRank.Tests
         {
             BuildTree(input);
             var visits = _tree.BreadthFirstTraveralRecursive();
-            Assert.That(visits, Is.EquivalentTo(expectedVisits));
+            Assert.That(visits, Is.EqualTo(expectedVisits));
         }
 
         [TestCase(new[] { 9, 4, 6, 20, 170, 15, 1 }, new[] { 1, 4, 6, 9, 15, 20, 170 })]
@@ -109,7 +109,7 @@ namespace HackerRank.Tests
         {
             BuildTree(input);
             var visits = _tree.DepthFirstTraversalInOrder();
-            Assert.That(visits, Is.EquivalentTo(expectedVisits));
+            Assert.That(visits, Is.EqualTo(expectedVisits));
         }
 
         [TestCase(new[] { 9, 4, 6, 20, 170, 15, 1 }, new[] { 9, 4, 1, 6, 20, 15, 170 })]
@@ -118,16 +118,16 @@ namespace HackerRank.Tests
         {
             BuildTree(input);
             var visits = _tree.DepthFirstTraversalPreOrder();
-            Assert.That(visits, Is.EquivalentTo(expectedVisits));
+            Assert.That(visits, Is.EqualTo(expectedVisits));
         }
 
         [TestCase(new[] { 9, 4, 6, 20, 170, 15, 1 }, new[] { 1, 6, 4, 15, 170, 20, 9 })]
-        [TestCase(new[] { 56, 30, 70, 22, 60, 95, 11, 3, 16, 65, 63, 67, 40 }, new[] { 3, 16, 63, 67, 11, 65, 22, 40, 60, 95, 30, 70, 56 })]
+        [TestCase(new[] { 56, 30, 70, 22, 60, 95, 11, 3, 16, 65, 63, 67, 40 }, new[] { 3, 16, 11, 22, 40, 30, 63, 67, 65, 60, 95, 70, 56 })]
         public void TestDepthFirstTraversalPostOrder(int[] input, int[] expectedVisits)
         {
             BuildTree(input);
             var visits = _tree.DepthFirstTraversalPostOrder();
-            Assert.That(visits, Is.EquivalentTo(expectedVisits));
+            Assert.That(visits, Is.EqualTo(expectedVisits));
         }
 
         private void BuildTree(int[] input)
