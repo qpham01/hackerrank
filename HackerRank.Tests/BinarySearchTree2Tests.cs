@@ -130,6 +130,17 @@ namespace HackerRank.Tests
             Assert.That(visits, Is.EqualTo(expectedVisits));
         }
 
+        [TestCase(new[] { 9, 4, 6, 20, 170, 15, 1 }, true)]
+        [TestCase(new[] { 56, 30, 70, 22, 60, 95, 11, 3, 16, 65, 63, 67, 40 }, true)]
+        [TestCase(new[] { 9, 4, 1, 20, 170, 15, 6 }, true)]
+        [TestCase(new[] { 9, 4, 6, 20, 15, 170, 1 }, true)]
+        public void TestValidate(int[] input, bool expectedIsValid)
+        {
+            BuildTree(input);
+            var isValid = _tree.Validate();
+            Assert.AreEqual(expectedIsValid, isValid);
+        }
+
         private void BuildTree(int[] input)
         {
             for (var i = 0; i < input.Length; ++i)

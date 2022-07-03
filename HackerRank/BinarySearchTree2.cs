@@ -16,6 +16,7 @@ namespace HackerRank
         int[] DepthFirstTraversalInOrder();
         int[] DepthFirstTraversalPreOrder();
         int[] DepthFirstTraversalPostOrder();
+        bool Validate();
     }
 
     public class BinaryNode
@@ -93,6 +94,7 @@ namespace HackerRank
             }
             return values.ToArray();
         }
+
         public int[] BreadthFirstTraveralRecursive()
         {
             var queue = new Queue<BinaryNode>();
@@ -123,6 +125,14 @@ namespace HackerRank
             TraversePostOrder(Root, values);
             return values.ToArray();
         }
+
+        public bool Validate()
+        {
+            var queue = new Queue<BinaryNode>();
+            queue.Enqueue(Root);
+            return BreadthFirstCompareChildren(queue);
+        }
+
         #endregion
 
         #region Constructor
@@ -181,6 +191,20 @@ namespace HackerRank
             BreadthFirstVisitRecursive(queue, values);
         }
 
+        private bool BreadthFirstCompareChildren(Queue<BinaryNode> queue)
+        {
+            if (queue.Count == 0) return true;
+            var node = queue.Dequeue();
+            if (node.Left != null && node.Right != null)
+            {
+                Console.WriteLine($"Comparing {node.Left.Value} and {node.Right.Value}");
+                if (node.Left.Value > node.Right.Value) return false;
+            }
+            if (node.Left != null) queue.Enqueue(node.Left);
+            if (node.Right != null) queue.Enqueue(node.Right);
+            return BreadthFirstCompareChildren(queue);
+        }
+
         private void TraverseInOrder(BinaryNode node, List<int> values)
         {
             if (node.Left != null)
@@ -219,7 +243,6 @@ namespace HackerRank
             }
             values.Add(node.Value);
         }
-
         #endregion
     }
 }

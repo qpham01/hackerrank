@@ -9,6 +9,7 @@ namespace HackerRank
     public interface INode<T>
     {
         T Value { get; }
+        List<IEdge<T>> Edges { get; }
     }
 
     public interface IEdge<T>
@@ -25,5 +26,7 @@ namespace HackerRank
         IEdge<T>[] GetEdgesByValue(T value);
         void AddNode(T value);
         void AddEdge(T start, T end, double weight, bool bidirectional);
+        T[] BreadthFirstSearch(T start, T target);
+        T[] DepthFirsSearch(T start, T Target);
     }
 }

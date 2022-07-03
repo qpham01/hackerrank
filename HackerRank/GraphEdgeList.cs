@@ -9,11 +9,16 @@ namespace HackerRank
     public class GNode<T> : INode<T>
     {
         public T Value => _value;
-        private readonly T _value;
+        public List<IEdge<T>> Edges => _edges;
 
+        
+        private readonly T _value;
+        private readonly List<IEdge<T>> _edges;
+        
         public GNode(T value)
         {
             _value = value;
+            _edges = new List<IEdge<T>>();
         }
     }
 
@@ -53,38 +58,59 @@ namespace HackerRank
             var startNode = _nodeTable[start];
             var endNode = _nodeTable[end];
             var edge = new GEdge<T>(startNode, endNode, weight);
-            if (!_edgeTable.TryGetValue(start, out var edges))
-            {
-                edges = new List<IEdge<T>>();
-                _edgeTable.Add(start, edges);
-            }
-            edges.Add(edge);
+            startNode.Edges.Add(edge);
             if (bidirectional)
             {
-                edge = new GEdge<T>(endNode, startNode, weight);
-                if (!_edgeTable.TryGetValue(end, out edges))
-                {
-                    edges = new List<IEdge<T>>();
-                    _edgeTable.Add(end, edges);
-                }
-                edges.Add(edge);
+                var reverseEdge = new GEdge<T>(endNode, startNode, weight);
+                endNode.Edges.Add(reverseEdge);
             }
         }
 
         public IEdge<T>[] GetEdgesByValue(T value)
         {
-            if (_edgeTable.TryGetValue(value, out var edges))
+            if (_nodeTable.TryGetValue(value, out var node))
             {
-                return edges.ToArray();
+                return node.Edges.ToArray();
             }
             return null;
+        }
+
+        public T[] BreadthFirstSearch(T start, T target)
+        {
+            if (!_nodeTable.TryGetValue(start, out var startNode)) return null;
+            var queue = new Queue<INode<T>>();
+            var toVisit = new HashSet<T>();
+            var orderedVisits = new List<T>();
+            queue.Enqueue(startNode);
+            toVisit.Add(start);
+            BreadthFirstVisit(queue, toVisit, orderedVisits, target);
+            return orderedVisits.ToArray();
+        }
+
+        public T[] DepthFirsSearch(T start, T target)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion;
 
         #region Non-Public
         private readonly IDictionary<T, INode<T>> _nodeTable = new Dictionary<T, INode<T>>();
-        private readonly IDictionary<T, List<IEdge<T>>> _edgeTable = new Dictionary<T, List<IEdge<T>>>();
+
+        private void BreadthFirstVisit(Queue<INode<T>> queue, HashSet<T> toVisit, List<T> orderedVisits, T target)
+        {
+            if (queue.Count == 0) return;
+            var node = queue.Dequeue();
+            orderedVisits.Add(node.Value);
+            if (node.Value.Equals(target)) return;
+            foreach (var edge in node.Edges)
+            {
+                if (toVisit.Contains(edge.Node2.Value)) continue;
+                toVisit.Add(edge.Node2.Value);
+                queue.Enqueue(edge.Node2);
+            }
+            BreadthFirstVisit(queue, toVisit, orderedVisits, target);
+        }
         #endregion
     }
 }
